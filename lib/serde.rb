@@ -1,22 +1,27 @@
 # frozen_string_literal: true
 
-require 'fileutils'
+require 'tmpdir'
 require_relative 'serde/serializer_generator.rb'
-
-FileUtils.rm_r(Dir.glob('_target_/*'))
-FileUtils.cp_r(Dir.glob('templates/extension/*'), '_target_')
 
 module Serde
   class Serializer
     class << self
       def schema(**attrs)
         @schema = attrs
-        SerializerGenerator.call(self)
-        Dir.chdir(File.expand_path('../_target_', __dir__)) do
-          `make`
-        end
 
-        require_relative '../_target_/serde_rb/serde_rb'
+        Dir.mktmpdir do |dir|
+          Dir.chdir(dir) do
+            SerializerGenerator.call(dir, self)
+
+            rust_path = File.expand_path('../rust', __dir__)
+
+            `cd #{rust_path}; cargo build --release`
+            `cp #{rust_path}/target/release/libserde_rb*.a #{dir}/serde_rb/libserde_rb.a`
+            `cd #{dir}/serde_rb; ruby extconf.rb; make clean; make`
+
+            require_relative "#{dir}/serde_rb/serde_rb"
+          end
+        end
       end
 
       def get_schema

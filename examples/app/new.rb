@@ -4,13 +4,6 @@ require 'bundler/setup'
 require 'serde'
 
 module Kek
-  class CowSerializer < Serde::Serializer
-    schema(
-      id: Integer,
-      name: String,
-    )
-  end
-
   class Cow
     attr_reader :id, :name
 
@@ -19,6 +12,34 @@ module Kek
       @name = name
     end
   end
+
+  class CowSerializer < Serde::Serializer
+    schema(
+      id: Integer,
+      name: String,
+    )
+  end
+end
+
+module Pek
+  class Car
+    attr_reader :id, :brand, :model
+
+    def initialize(id, brand, model)
+      @id = id
+      @brand = brand
+      @model = model
+    end
+  end
+
+  class CarSerializer < Serde::Serializer
+    schema(
+      id: Integer,
+      brand: String,
+      model: String,
+    )
+  end
 end
 
 puts Kek::CowSerializer.new(Kek::Cow.new(1, 'Ковыч')).to_json
+puts Pek::CarSerializer.new(Pek::Car.new(1, 'Mazda', '6')).to_json

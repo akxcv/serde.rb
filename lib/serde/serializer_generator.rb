@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
+require 'fileutils'
 require 'erb'
 
 module Serde
   module SerializerGenerator
     class << self
-      def call(klass) # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity
+      def call(dir, klass)
+        FileUtils.cp_r(Dir.glob(File.expand_path('../../templates/extension/*', __dir__)), '.')
+
         schema = klass.instance_variable_get(:@schema)
 
         name = underscore(klass.name)
@@ -37,6 +41,18 @@ module Serde
           { name: k, type: type, rctype: rctype, cdecl: cdecl, ctype: ctype }
         end
 
+        rust_extras = []
+
+        schema.each do |k, v|
+          next unless v.to_s == 'String'
+
+          rust_extras.push(<<~RUST)
+            let #{k} = unsafe {
+              CStr::from_ptr(#{k}).to_string_lossy().into_owned()
+            };
+          RUST
+        end
+
         serializer = {
           class_name: klass.name,
           name: name,
@@ -50,23 +66,25 @@ module Serde
           joint_fields_c: fields.map do |field|
             "#{field[:ctype]} #{field[:name]}"
           end.join(', '),
+          rust_extras: rust_extras,
         }
 
-        mod_template = ERB.new(File.read('./templates/rust/mod.rs'))
+        mod_template = ERB.new(File.read(File.expand_path('../../templates/rust/mod.rs', __dir__)))
         compiled_template = mod_template.result(binding)
 
-        File.write("./rust/src/#{name}.rs", compiled_template)
+        File.write(File.expand_path("../../rust/src/#{name}.rs", __dir__), compiled_template)
 
-        c_template = ERB.new(File.read('./templates/c/serde_rb.c'))
+        c_template = ERB.new(File.read(File.expand_path('../../templates/c/serde_rb.c', __dir__)))
         compiled_template = c_template.result(binding)
 
-        File.write('./_target_/serde_rb/serde_rb.c', compiled_template)
+        File.write('./serde_rb/serde_rb.c', compiled_template)
 
-        lib_template = ERB.new(File.read('./templates/rust/lib.rs'))
+        lib_template = ERB.new(File.read(File.expand_path('../../templates/rust/lib.rs', __dir__)))
         compiled_template = lib_template.result(binding)
 
-        File.write('./rust/src/lib.rs', compiled_template)
+        File.write(File.expand_path('../../rust/src/lib.rs', __dir__), compiled_template)
       end
+      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity
 
       private
 

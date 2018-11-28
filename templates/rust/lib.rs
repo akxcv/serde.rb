@@ -5,9 +5,7 @@ mod <%= serializer[:name] %>;
 
 #[no_mangle]
 pub extern "C" fn serde_rb_rs_<%= serializer[:name] %> (<%= serializer[:joint_fields_rctype] %>) -> *const u8 {
-    let name = unsafe {
-        CStr::from_ptr(name).to_string_lossy().into_owned()
-    };
+    <%= serializer[:rust_extras].join("\n") %>
     let instance = <%= serializer[:name] %>::Struct {
         <% serializer[:fields].each do |field| %>
             <%= field[:name] %>,

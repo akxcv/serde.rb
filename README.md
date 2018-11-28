@@ -5,7 +5,7 @@ WIP
 # TODO:
 
 - [ ] Write the README
-- [ ] Use a temporary directory instead of `_target_`
+- [x] Use a temporary directory instead of `_target_`
 - [ ] Write specs
 - [x] Set up rubocop
 - [ ] Set up CI
