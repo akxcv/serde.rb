@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 require 'erb'
 
-def generate_serializers
-  def underscore(str)
-    str.tr('::', '/')
-       .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
-       .gsub(/([a-z\d])([A-Z])/, '\1_\2')
-       .tr('-', '_')
-       .downcase
-  end
+def underscore(str)
+  str.tr('::', '/')
+     .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+     .gsub(/([a-z\d])([A-Z])/, '\1_\2')
+     .tr('-', '_')
+     .downcase
+end
 
+def generate_serializers # rubocop:disable Metrics/MethodLength
   modules = []
 
   Serde.subclasses.each do |klass|
@@ -44,7 +46,7 @@ def generate_serializers
   lib_template = ERB.new(File.read('./rust_template/lib.rs.erb'))
   compiled_template = lib_template.result(binding)
 
-  File.open("./src/lib.rs", 'w') { |f| f.write(compiled_template) }
+  File.open('./src/lib.rs', 'w') { |f| f.write(compiled_template) }
 
   `rake build`
 end

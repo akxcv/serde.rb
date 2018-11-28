@@ -1,0 +1,21 @@
+inherit_gem:
+  armitage-rubocop:
+    - lib/rubocop.general.yml
+    - lib/rubocop.rspec.yml
+
+AllCops:
+  TargetRubyVersion: 2.5.3
+  Include:
+    - serde.gemspec
+    - lib/**/*.rb
+    - spec/**/*.rb
+    - Gemfile
+    - examples/Gemfile
+    - examples/**/*.rb
+
+Metrics/AbcSize:
+  Max: 40
+
+Naming/FileName:
+  Exclude:
+    - examples/app/Gemfile

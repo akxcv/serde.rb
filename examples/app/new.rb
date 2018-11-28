@@ -6,7 +6,7 @@ require 'serde'
 class CowSerializer < Serde::Serializer
   schema(
     id: Integer,
-    name: String,
+    name: String
   )
 end
 
