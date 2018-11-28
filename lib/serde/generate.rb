@@ -34,7 +34,7 @@ def generate_serializers # rubocop:disable Metrics/MethodLength
       fields: fields,
       joint_fields: fields.map do |field|
         "#{field[:name]}: #{field[:type]}"
-      end.join(', ')
+      end.join(', '),
     }
 
     mod_template = ERB.new(File.read('./rust_template/mod.rs.erb'))

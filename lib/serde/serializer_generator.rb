@@ -49,7 +49,7 @@ module Serde
           end.join(', '),
           joint_fields_c: fields.map do |field|
             "#{field[:ctype]} #{field[:name]}"
-          end.join(', ')
+          end.join(', '),
         }
 
         mod_template = ERB.new(File.read('./templates/rust/mod.rs'))
