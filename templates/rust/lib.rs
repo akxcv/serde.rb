@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 use std::os::raw::c_char;
 use std::ffi::CStr;
 
@@ -11,5 +13,5 @@ pub extern "C" fn serde_rb_rs_<%= serializer[:name] %> (<%= serializer[:joint_fi
             <%= field[:name] %>,
         <% end %>
     };
-    serde_json::to_string(&instance).unwrap().as_ptr()
+    (serde_json::to_string(&instance).unwrap() + "\0").as_ptr()
 }
