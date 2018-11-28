@@ -10,7 +10,6 @@ AllCops:
     - lib/**/*.rb
     - spec/**/*.rb
     - Gemfile
-    - examples/Gemfile
     - examples/**/*.rb
 
 Style/TrailingCommaInArguments:
