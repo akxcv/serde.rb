@@ -5,7 +5,7 @@ require 'erb'
 module Serde
   module SerializerGenerator
     class << self
-      def call(klass)
+      def call(klass) # rubocop:disable Metrics/MethodLength
         schema = klass.instance_variable_get(:@schema)
 
         name = underscore(klass.name)
@@ -65,7 +65,7 @@ module Serde
         lib_template = ERB.new(File.read('./templates/rust/lib.rs'))
         compiled_template = lib_template.result(binding)
 
-        File.write("./rust/src/lib.rs", compiled_template)
+        File.write('./rust/src/lib.rs', compiled_template)
       end
 
       private

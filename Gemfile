@@ -1,7 +1,7 @@
-source 'https://rubygems.org'
-gemspec
+# frozen_string_literal: true
 
-group :development, :test do
-  gem 'surrealist'
-  gem 'benchmark-ips'
-end
+source 'https://rubygems.org'
+
+git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
+
+gemspec
