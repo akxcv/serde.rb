@@ -1,0 +1,16 @@
+PATH
+  remote: ../..
+  specs:
+    serde (0.1.0)
+
+GEM
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  serde!
+
+BUNDLED WITH
+   1.17.1

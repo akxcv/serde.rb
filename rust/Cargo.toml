@@ -1,0 +1,13 @@
+[package]
+name = "serde_rb"
+version = "0.0.1"
+authors = ["Alexander Komarov <ak@akxcv.com>"]
+edition = "2018"
+
+[lib]
+crate-type = ["staticlib", "cdylib"]
+
+[dependencies]
+serde = "*"
+serde_derive = "*"
+serde_json = "*"
