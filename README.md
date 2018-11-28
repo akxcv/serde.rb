@@ -15,5 +15,7 @@ WIP
 - [ ] Composite types (ArrayOf, HashMap?, Enum)
 - [ ] Vendor `rustc` with the gem
 - [ ] Write benchmarks, compare with Surrealist
+- [ ] Support any serde-compatible format
+- [ ] Deserialization
 - [ ] Allow dynamic hashes?
 - [ ] Type checks and coercions?
