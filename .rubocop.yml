@@ -14,15 +14,12 @@ AllCops:
     - examples/**/*.rb
 
 Style/TrailingCommaInArguments:
-  Enabled: true
   EnforcedStyleForMultiline: comma
 
 Style/TrailingCommaInArrayLiteral:
-  Enabled: true
   EnforcedStyleForMultiline: comma
 
 Style/TrailingCommaInHashLiteral:
-  Enabled: true
   EnforcedStyleForMultiline: comma
 
 Metrics/AbcSize:
