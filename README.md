@@ -7,7 +7,7 @@ WIP
 - [ ] Write the README
 - [ ] Use a temporary directory instead of `_target_`
 - [ ] Write specs
-- [ ] Set up rubocop
+- [x] Set up rubocop
 - [ ] Set up CI
 - [ ] Reuse Rust crate, but generate sources in a temp dir
 - [ ] Cover all basic types (Integer, String, Float, Boolean)
