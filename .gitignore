@@ -3,3 +3,4 @@
 /serde-*.gem
 .ruby-version
 Gemfile.lock
+examples/app/Gemfile.lock
