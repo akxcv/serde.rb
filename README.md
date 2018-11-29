@@ -13,7 +13,6 @@ WIP
 - [ ] Cover all basic types (Integer, String, Float, Boolean)
 - [ ] Nullable types
 - [ ] Composite types (ArrayOf, HashMap?, Enum)
-- [ ] Vendor `rustc` with the gem
 - [x] Write benchmarks, compare with Surrealist
 - [ ] Support any serde-compatible format
 - [ ] Deserialization
