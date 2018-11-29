@@ -3,11 +3,32 @@
 require 'tmpdir'
 require_relative 'serde/serializer_generator.rb'
 
+trace = TracePoint.new(:end) do |tp|
+  klass = tp.self
+  if Serde::Serializer.descendants.include?(klass)
+    klass.compile!
+  end
+end
+trace.enable
+
 module Serde
   class Serializer
+    @descendants = []
+    @compiled = false
+
     class << self
+      attr_reader :descendants
+
+      def inherited(klass)
+        @descendants << klass
+      end
+
       def schema(**attrs)
         @schema = attrs
+      end
+
+      def compile!
+        raise 'already compiled' if @compiled
 
         Dir.mktmpdir do |dir|
           Dir.chdir(dir) do
@@ -22,6 +43,8 @@ module Serde
             require_relative "#{dir}/serde_rb/serde_rb"
           end
         end
+
+        @compiled = true
       end
 
       def get_schema

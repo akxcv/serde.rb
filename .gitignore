@@ -1,5 +1,4 @@
 /tmp
-/_target_
 /serde-*.gem
 .ruby-version
 Gemfile.lock
