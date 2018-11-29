@@ -25,11 +25,13 @@ module Serde
             case v
             when 'Integer' then 'int'
             when 'String' then 'char*'
+            when 'Float' then 'double'
             end
           cdecl =
             case v
             when 'Integer' then "int c_#{k} = NUM2INT(#{k});"
             when 'String' then "char* c_#{k} = StringValueCStr(#{k});"
+            when 'Float' then "double c_#{k} = RFLOAT_VALUE(#{k});"
             end
           rctype =
             case v
