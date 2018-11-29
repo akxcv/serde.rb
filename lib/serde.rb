@@ -13,6 +13,8 @@ trace.enable
 
 module Serde
   class Serializer
+    Boolean = 'Boolean' # rubocop:disable Naming/ConstantName
+
     @descendants = []
     @compiled = false
 

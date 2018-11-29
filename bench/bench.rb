@@ -7,14 +7,16 @@ require 'serde'
 require 'surrealist'
 
 class User
-  attr_reader :id, :first_name, :last_name, :email, :age
+  attr_reader :id, :first_name, :last_name, :email, :age, :admin, :balance
 
-  def initialize(id, first_name, last_name, email, age)
+  def initialize(id, first_name, last_name, email, age, admin, balance)
     @id = id
     @first_name = first_name
     @last_name = last_name
     @email = email
     @age = age
+    @admin = admin
+    @balance = balance
   end
 end
 
@@ -24,7 +26,9 @@ class UserSerdeSerializer < Serde::Serializer
     first_name: String,
     last_name: String,
     email: String,
-    age: Integer
+    age: Integer,
+    admin: Boolean,
+    balance: Float,
   )
 end
 
@@ -35,7 +39,9 @@ class UserSurrealistSerializer < Surrealist::Serializer
       first_name: String,
       last_name: String,
       email: String,
-      age: Integer
+      age: Integer,
+      admin: Bool,
+      balance: Float,
     }
   end
 end
@@ -43,20 +49,17 @@ end
 class UserOjSerializer
   def initialize(user)
     @user = user
+    @hsh = %w[id first_name last_name email age admin balance].each_with_object({}) do |a, hsh|
+      hsh[a] = user.public_send(a)
+    end
   end
 
   def to_json
-    Oj.dump(
-      id: @user.id,
-      first_name: @user.first_name,
-      last_name: @user.last_name,
-      email: @user.email,
-      age: @user.age
-    )
+    Oj.dump(@hsh)
   end
 end
 
-user = User.new(1, 'Pavel', 'Yakimov', 'mrpavel@example.com', 24)
+user = User.new(1, 'Pavel', 'Yakimov', 'mrpavel@example.com', 24, true, 9123012.412)
 serde_serializer = UserSerdeSerializer.new(user)
 surrealist_serializer = UserSurrealistSerializer.new(user)
 oj_serializer = UserOjSerializer.new(user)
@@ -83,33 +86,20 @@ end
 # Serialize to JSON
 # -------
 # Warming up --------------------------------------
-#                serde    76.802k i/100ms
-#           Surrealist     3.064k i/100ms
-#                   Oj    51.183k i/100ms
+#                serde    69.276k i/100ms
+#           Surrealist     2.623k i/100ms
+#                   Oj    70.045k i/100ms
 # Calculating -------------------------------------
-#                serde    898.268k (± 5.1%) i/s -      4.531M in   5.058080s
-#           Surrealist     36.268k (± 3.2%) i/s -    183.840k in   5.074885s
-#                   Oj    689.594k (± 3.4%) i/s -      3.480M in   5.053357s
+#                serde    848.515k (± 3.1%) i/s -      4.295M in   5.067076s
+#           Surrealist     26.971k (± 1.9%) i/s -    136.396k in   5.058875s
+#                   Oj    853.367k (± 2.3%) i/s -      4.273M in   5.009609s
 
 # Comparison:
-#                serde:   898267.9 i/s
-#                   Oj:   689593.9 i/s - 1.30x  slower
-#           Surrealist:    36268.1 i/s - 24.77x  slower
+#                   Oj:   853366.6 i/s
+#                serde:   848515.2 i/s - same-ish: difference falls within error
+#           Surrealist:    26971.2 i/s - 31.64x  slower
 
 # -------
 # Initialize + serialize to JSON
 # -------
 # Warming up --------------------------------------
-#                serde    41.158k i/100ms
-#           Surrealist     3.087k i/100ms
-#                   Oj    51.710k i/100ms
-# Calculating -------------------------------------
-#                serde    451.324k (± 1.4%) i/s -      2.264M in   5.016647s
-#           Surrealist     33.478k (± 6.8%) i/s -    166.698k in   5.003821s
-#                   Oj    635.098k (± 2.9%) i/s -      3.206M in   5.052618s
-
-# Comparison:
-#                   Oj:   635097.9 i/s
-#                serde:   451323.7 i/s - 1.41x  slower
-#           Surrealist:    33478.1 i/s - 18.97x  slower
-

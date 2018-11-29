@@ -13,12 +13,13 @@ module Serde
         schema = klass.instance_variable_get(:@schema)
 
         name = underscore(klass.name)
-        fields = schema.map do |k, v|
+        fields = schema.map do |k, v| # rubocop:disable Metrics/BlockLength
           v = v.to_s
           type =
             case v
             when 'Integer' then 'i64'
             when 'Float' then 'f64'
+            when 'Boolean' then 'bool'
             else v
             end
           ctype =
@@ -26,18 +27,21 @@ module Serde
             when 'Integer' then 'int'
             when 'String' then 'char*'
             when 'Float' then 'double'
+            when 'Boolean' then 'bool'
             end
           cdecl =
             case v
             when 'Integer' then "int c_#{k} = NUM2INT(#{k});"
             when 'String' then "char* c_#{k} = StringValueCStr(#{k});"
             when 'Float' then "double c_#{k} = RFLOAT_VALUE(#{k});"
+            when 'Boolean' then "bool c_#{k} = #{k};"
             end
           rctype =
             case v
             when 'String' then '*const c_char'
             when 'Integer' then 'i64'
             when 'Float' then 'f64'
+            when 'Boolean' then 'bool'
             else v
             end
           { name: k, type: type, rctype: rctype, cdecl: cdecl, ctype: ctype }

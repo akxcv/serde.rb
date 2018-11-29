@@ -10,7 +10,7 @@ WIP
 - [x] Set up rubocop
 - [ ] Set up CI
 - [ ] Reuse Rust crate, but generate sources in a temp dir
-- [ ] Cover all basic types (Integer, String, Float, Boolean)
+- [x] Cover all basic types (Integer, String, Float, Boolean)
 - [ ] Nullable types
 - [ ] Composite types (ArrayOf, HashMap?, Enum)
 - [x] Write benchmarks, compare with Surrealist

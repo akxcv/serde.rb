@@ -5,11 +5,12 @@ require 'serde'
 
 module Kek
   class Cow
-    attr_reader :id, :name
+    attr_reader :id, :name, :male
 
-    def initialize(id, name)
+    def initialize(id, name, male)
       @id = id
       @name = name
+      @male = male
     end
   end
 
@@ -17,6 +18,7 @@ module Kek
     schema(
       id: Integer,
       name: String,
+      male: Boolean,
     )
   end
 end
@@ -43,5 +45,5 @@ module Pek
   end
 end
 
-puts Kek::CowSerializer.new(Kek::Cow.new(1, 'Ковыч')).to_json
+puts Kek::CowSerializer.new(Kek::Cow.new(1, 'Упаковыч', true)).to_json
 puts Pek::CarSerializer.new(Pek::Car.new(1, 'Mazda', '6', 100.01)).to_json

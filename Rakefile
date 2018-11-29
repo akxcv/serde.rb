@@ -16,7 +16,7 @@ end
 RSpec::Core::RakeTask.new(:rspec)
 
 task :run_example do
-  require_relative 'examples/app/new.rb'
+  require_relative 'examples/new.rb'
 end
 
 task :bench do
