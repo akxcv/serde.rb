@@ -38,7 +38,7 @@ module Serde
 
             rust_path = File.expand_path('../rust', __dir__)
 
-            `cd #{rust_path}; cargo +beta build --release`
+            `cd #{rust_path}; cargo build --release`
             `cp #{rust_path}/target/release/libserde_rb*.a #{dir}/serde_rb/libserde_rb.a`
             `cd #{dir}/serde_rb; ruby extconf.rb; make clean; make`
 
