@@ -34,7 +34,7 @@ module Serde
             when 'Integer' then "int c_#{k} = NUM2INT(#{k});"
             when 'String' then "char* c_#{k} = StringValueCStr(#{k});"
             when 'Float' then "double c_#{k} = RFLOAT_VALUE(#{k});"
-            when 'Boolean' then "bool c_#{k} = #{k};"
+            when 'Boolean' then "bool c_#{k} = #{k} == Qtrue;"
             end
           rctype =
             case v
