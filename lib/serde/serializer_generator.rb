@@ -8,7 +8,8 @@ module Serde
     class << self
       # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity
       def call(dir, klass)
-        FileUtils.cp_r(Dir.glob(File.expand_path('../../templates/extension/*', __dir__)), '.')
+        FileUtils.cp_r(Dir.glob(File.expand_path('../../extension/*', __dir__)), '.')
+        FileUtils.cp(Dir.glob(File.expand_path('../../c/conversions.*', __dir__)), './serde_rb')
 
         schema = klass.instance_variable_get(:@schema)
 
@@ -75,17 +76,17 @@ module Serde
           rust_extras: rust_extras,
         }
 
-        mod_template = ERB.new(File.read(File.expand_path('../../templates/rust/mod.rs', __dir__)))
+        mod_template = ERB.new(File.read(File.expand_path('../../rust/src/mod.erb.rs', __dir__)))
         compiled_template = mod_template.result(binding)
 
         File.write(File.expand_path("../../rust/src/#{name}.rs", __dir__), compiled_template)
 
-        c_template = ERB.new(File.read(File.expand_path('../../templates/c/serde_rb.c', __dir__)))
+        c_template = ERB.new(File.read(File.expand_path('../../c/serde_rb.erb.c', __dir__)))
         compiled_template = c_template.result(binding)
 
         File.write('./serde_rb/serde_rb.c', compiled_template)
 
-        lib_template = ERB.new(File.read(File.expand_path('../../templates/rust/lib.rs', __dir__)))
+        lib_template = ERB.new(File.read(File.expand_path('../../rust/src/lib.erb.rs', __dir__)))
         compiled_template = lib_template.result(binding)
 
         File.write(File.expand_path('../../rust/src/lib.rs', __dir__), compiled_template)

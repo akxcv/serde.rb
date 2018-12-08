@@ -1,2 +1,4 @@
 /target
 /src/*.rs
+!/src/mod.erb.rs
+!/src/lib.erb.rs
