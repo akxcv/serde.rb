@@ -81,25 +81,3 @@ Benchmark.ips do |x|
 
   x.compare!
 end
-
-# -------
-# Serialize to JSON
-# -------
-# Warming up --------------------------------------
-#                serde    69.276k i/100ms
-#           Surrealist     2.623k i/100ms
-#                   Oj    70.045k i/100ms
-# Calculating -------------------------------------
-#                serde    848.515k (± 3.1%) i/s -      4.295M in   5.067076s
-#           Surrealist     26.971k (± 1.9%) i/s -    136.396k in   5.058875s
-#                   Oj    853.367k (± 2.3%) i/s -      4.273M in   5.009609s
-
-# Comparison:
-#                   Oj:   853366.6 i/s
-#                serde:   848515.2 i/s - same-ish: difference falls within error
-#           Surrealist:    26971.2 i/s - 31.64x  slower
-
-# -------
-# Initialize + serialize to JSON
-# -------
-# Warming up --------------------------------------

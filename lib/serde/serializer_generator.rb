@@ -19,6 +19,7 @@ module Serde
           type =
             case v
             when 'Integer' then 'i64'
+            when 'String' then "&'a str"
             when 'Float' then 'f64'
             when 'Boolean' then 'bool'
             else v
@@ -55,7 +56,7 @@ module Serde
 
           rust_extras.push(<<~RUST)
             let #{k} = unsafe {
-              CStr::from_ptr(#{k}).to_string_lossy().into_owned()
+              CStr::from_ptr(#{k}).to_str().unwrap()
             };
           RUST
         end

@@ -1,0 +1,34 @@
+-------
+Serialize to JSON
+-------
+Warming up --------------------------------------
+               serde    89.519k i/100ms
+          Surrealist     2.286k i/100ms
+                  Oj    65.159k i/100ms
+Calculating -------------------------------------
+               serde      1.084M (± 3.0%) i/s -      5.461M in   5.040131s
+          Surrealist     24.819k (± 6.0%) i/s -    125.730k in   5.085374s
+                  Oj    809.452k (± 4.1%) i/s -      4.105M in   5.080462s
+
+Comparison:
+               serde:  1084393.9 i/s
+                  Oj:   809451.7 i/s - 1.34x  slower
+          Surrealist:    24819.3 i/s - 43.69x  slower
+
+-------
+Initialize + serialize to JSON
+-------
+Warming up --------------------------------------
+               serde    37.215k i/100ms
+          Surrealist     2.348k i/100ms
+                  Oj    19.348k i/100ms
+Calculating -------------------------------------
+               serde    384.762k (± 2.6%) i/s -      1.935M in   5.032878s
+          Surrealist     23.939k (± 3.3%) i/s -    119.748k in   5.007889s
+                  Oj    219.487k (± 2.9%) i/s -      1.103M in   5.028920s
+
+Comparison:
+               serde:   384762.0 i/s
+                  Oj:   219487.4 i/s - 1.75x  slower
+          Surrealist:    23938.5 i/s - 16.07x  slower
+
