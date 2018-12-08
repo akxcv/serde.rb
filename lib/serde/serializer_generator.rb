@@ -31,10 +31,10 @@ module Serde
             end
           cdecl =
             case v
-            when 'Integer' then "int c_#{k} = NUM2INT(#{k});"
-            when 'String' then "char* c_#{k} = StringValueCStr(#{k});"
-            when 'Float' then "double c_#{k} = RFLOAT_VALUE(#{k});"
-            when 'Boolean' then "bool c_#{k} = #{k} == Qtrue;"
+            when 'Integer' then "int c_#{k} = Conversions.ruby_fixnum_to_c_int(#{k});"
+            when 'String' then "char* c_#{k} = Conversions.ruby_string_to_c_string(#{k});"
+            when 'Float' then "double c_#{k} = Conversions.ruby_float_to_c_double(#{k});"
+            when 'Boolean' then "bool c_#{k} = Conversions.ruby_bool_to_c_bool(#{k});"
             end
           rctype =
             case v

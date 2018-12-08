@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <ruby.h>
+#include "conversions.h"
 
 extern char *serde_rb_rs_<%= serializer[:name] %>(<%= serializer[:joint_fields_c] %>);
 
